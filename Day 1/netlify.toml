@@ -1,0 +1,12 @@
+[build]
+  functions = "netlify/functions"
+  publish = "Day 1"
+
+[dev]
+  functions = "netlify/functions"
+  publish = "Day 1"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200 
