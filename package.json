@@ -1,0 +1,15 @@
+{
+  "name": "spoon-website",
+  "version": "1.0.0",
+  "description": "Spoon healthy meal plans website",
+  "main": "index.js",
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "netlify-cli": "^12.0.0"
+  }
+} 

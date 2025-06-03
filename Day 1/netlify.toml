@@ -7,6 +7,11 @@
   publish = "Day 1"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/"
+  to = "/Home Page/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/Contact Us Page/contact.html"
   status = 200 
