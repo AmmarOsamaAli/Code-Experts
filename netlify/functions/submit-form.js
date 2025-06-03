@@ -1,7 +1,6 @@
 const fetch = require('node-fetch');
 
 exports.handler = async function(event, context) {
-    // Only allow POST requests
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
@@ -11,49 +10,53 @@ exports.handler = async function(event, context) {
 
     try {
         const data = JSON.parse(event.body);
-
-        console.log("Received form data:", data);
-        console.log("AIRTABLE_PAT defined:", process.env.AIRTABLE_PAT);
-        console.log("AIRTABLE_BASE_ID:", process.env.AIRTABLE_BASE_ID);
+        const { Name, Email, Phone, Subject, Message, "Submission Date": SubmissionDate } = data.fields;
 
         // Validate required fields
-        if (!data.fields.Name || !data.fields.Email || !data.fields.Message) {
+        if (!Name || !Email || !Message) {
             return {
                 statusCode: 400,
                 body: JSON.stringify({ error: 'Missing required fields' })
             };
         }
 
-        // Send to Airtable using Personal Access Token
-        const response = await fetch(
-            `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Contacts`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${process.env.AIRTABLE_PAT}`,
-                    'User-Agent': 'Spoon Contact Form'
-                },
-                body: JSON.stringify(data)
-            }
-        );
+        // Prepare Airtable API request
+        const airtableResponse = await fetch(`https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Contacts`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${process.env.AIRTABLE_PAT}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                records: [
+                    {
+                        fields: {
+                            Name,
+                            Email,
+                            "Phone Number": Phone || '',
+                            Subject: Subject || '',
+                            Message,
+                            "Submission Date": SubmissionDate || new Date().toISOString()
+                        }
+                    }
+                ]
+            })
+        });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Airtable API Error:', errorData);
-            throw new Error(errorData.error?.message || 'Airtable API error');
+        if (!airtableResponse.ok) {
+            const error = await airtableResponse.json();
+            throw new Error(error?.error?.message || 'Airtable API error');
         }
 
         return {
             statusCode: 200,
             body: JSON.stringify({ message: 'Form submitted successfully' })
         };
-
     } catch (error) {
-        console.error('Error in function:', error);
+        console.error('Submission Error:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: error.message || 'Internal server error' })
+            body: JSON.stringify({ error: error.message })
         };
     }
 };
