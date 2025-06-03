@@ -4,24 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Spoon</title>
-    <link href="../Style Sheet/style.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="../Home Page/index.html" class="logo">Spoon</a>
+          <a href="index.html" class="logo">Spoon</a>
             <button class="menu-toggle" aria-label="Toggle Menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-links">
-                <li><a href="../Home Page/index.html">Home</a></li>
-                <li><a href="../Home Page/index.html#plans">Plans</a></li>
-                <li><a href="../Home Page/index.html#about">About</a></li>
+            <ul class="nav-links"> <a href="index.html#plans">Plans</a>
                 <li><a href="contact.html" class="btn btn-small">Contact Us</a></li>
+                <li class="has-dropdown">
+                    <a href="index.html#about">About <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#story">Our Story</a></li>
+                        <li><a href="#team">Our Team</a></li>
+                        <li><a href="#press">Press</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </nav>

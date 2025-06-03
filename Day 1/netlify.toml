@@ -8,10 +8,10 @@
 
 [[redirects]]
   from = "/"
-  to = "/Home Page/index.html"
+  to = "index.html"
   status = 200
 
 [[redirects]]
   from = "/contact"
-  to = "/Contact Us Page/contact.html"
+  to = "contact.html"
   status = 200 
