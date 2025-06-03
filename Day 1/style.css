@@ -129,20 +129,40 @@ ul {
     margin-left: auto;
 }
 
+/* Ensure all nav links have consistent styles */
 .nav-links a {
+    font-size: 1rem;
     font-weight: 500;
-    transition: color 0.3s;
-    padding: 8px 0;
-}
-
-.nav-links li {
-    display: flex;
-    align-items: center;
-}
-
-.nav-links a:hover {
+    padding: 8px 16px;
+    line-height: 1.5;
+    border: none;
+    background: none;
+    color: var(--gray-900);
+    display: inline-block;
+  }
+  
+  .nav-links a:hover {
     color: var(--primary);
-}
+  }
+  
+  /* Remove extra button styles from nav links */
+  .nav-links .btn,
+  .nav-links .btn-small {
+    all: unset;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 8px 0;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 1.5;
+  }
+  
+  .nav-links .btn:hover,
+  .nav-links .btn-small:hover {
+    color: var(--primary);
+  }
+  
+  
 
 /* Buttons */
 .btn {
@@ -155,6 +175,7 @@ ul {
     border: none;
     cursor: pointer;
 }
+
 
 .btn.primary {
     background: var(--primary);
