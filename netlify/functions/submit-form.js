@@ -11,7 +11,11 @@ exports.handler = async function(event, context) {
 
     try {
         const data = JSON.parse(event.body);
-        
+
+        console.log("Received form data:", data);
+        console.log("AIRTABLE_PAT defined:", process.env.AIRTABLE_PAT);
+        console.log("AIRTABLE_BASE_ID:", process.env.AIRTABLE_BASE_ID);
+
         // Validate required fields
         if (!data.fields.Name || !data.fields.Email || !data.fields.Message) {
             return {
@@ -36,7 +40,7 @@ exports.handler = async function(event, context) {
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error('Airtable Error:', errorData);
+            console.error('Airtable API Error:', errorData);
             throw new Error(errorData.error?.message || 'Airtable API error');
         }
 
@@ -46,7 +50,7 @@ exports.handler = async function(event, context) {
         };
 
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error in function:', error);
         return {
             statusCode: 500,
             body: JSON.stringify({ error: error.message || 'Internal server error' })
