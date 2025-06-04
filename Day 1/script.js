@@ -32,10 +32,13 @@ menuButton.addEventListener('click', () => {
 });
 
 // Dropdown Menu
-document.querySelectorAll('.has-dropdown').forEach(dropdown => {
-    dropdown.addEventListener('click', (e) => {
+document.querySelectorAll('.has-dropdown > a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        // Prevent default only for the dropdown toggle
         e.preventDefault();
-        dropdown.classList.toggle('active');
+
+        const parent = this.parentElement;
+        parent.classList.toggle('active');
     });
 });
 

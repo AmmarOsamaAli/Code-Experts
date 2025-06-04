@@ -217,7 +217,7 @@ ul {
 /* Hero Section */
 .hero {
     background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
-                url('Background.jpg') no-repeat center center;
+                url('/Day 1/IMAGES/Background.jpg') no-repeat center center;
     background-size: cover;
     background-color: #f8f9fa;
     min-height: 100vh;  /* Make hero take full viewport height */
@@ -445,6 +445,50 @@ ul {
     border-top: 1px solid var(--gray-600);
     color: var(--gray-300);
 }
+
+
+
+.story-section {
+    margin-bottom: 30px;
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .story-section h2 {
+    color: var(--primary);
+    font-size: 1.75rem;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .story-section p,
+  .story-list li {
+    font-size: 1.1rem;
+    color: var(--gray-900);
+    line-height: 1.6;
+  }
+  
+  .story-list {
+    list-style: disc inside;
+    padding-left: 20px;
+  }
+  
+  .cta-story {
+    text-align: center;
+    padding: 30px 0;
+    background: var(--gray-100);
+  }
+  
+  .cta-story h2 {
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .cta-story .btn.primary{
+    margin-top: 20px;
+  }
 
 /* Animations */
 @keyframes fadeIn {
