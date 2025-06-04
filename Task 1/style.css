@@ -961,9 +961,8 @@ ul {
   
   .privacy-section h2 {
     font-size: 1.75rem;
-    color: var(--primary-dark);
+    color: var(--primary);
     margin-bottom: 0.75rem;
-    text-decoration: underline;
   }
   
   .privacy-section p {
@@ -992,7 +991,126 @@ ul {
     color: var(--primary-dark);
   }
   
+  .terms-page {
+    padding-top: var(--header-height);
+    min-height: calc(100vh - var(--header-height));
+    background-color: var(--gray-100);
+}
+
+/* Section containing all terms content */
+.terms-section {
+    padding: 60px 0;
+}
+
+/* Style the container that holds the text */
+.terms-content {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 40px;
+    margin-top: 20px;
+}
+
+/* Page title */
+.terms-content h1 {
+    font-size: 2.5rem;
+    color: var(--primary-dark);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Section headings */
+.terms-content h2 {
+    font-size: 1.75rem;
+    color: var(--primary);
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+/* Paragraph text */
+.terms-content p {
+    font-size: 1rem;
+    color: var(--gray-900);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Unordered lists */
+.terms-content ul {
+    list-style: disc inside;
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+/* List items */
+.terms-content li {
+    font-size: 1rem;
+    color: var(--gray-900);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Links within the terms */
+.terms-content a {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.terms-content a:hover {
+    color: var(--primary-dark);
+}
+
+/* Contact details at the bottom of the terms */
+.contact-details-terms {
+    margin-top: 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.contact-details-terms p {
+    margin-bottom: 8px;
+}
+
+.contact-details-terms a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.contact-details-terms a:hover {
+    text-decoration: underline;
+}
  
+.footer-col .social-links {
+     display: flex;
+     flex-direction: column;
+     gap: 12px;           
+     margin-top: 10px;
+   }
+  
+  .footer-col .social-links a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: var(--gray-300);
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-col .social-links a .social-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+  
+  .footer-col .social-links a:hover {
+    color: white;
+  }
+  
+  .footer-col .social-links i {
+    /* Adjust icon size if needed */
+    font-size: 1.2rem;
+  }
 
 /* Responsive Design */
 @media (max-width: 1280px) {
