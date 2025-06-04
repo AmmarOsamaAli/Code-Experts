@@ -424,3 +424,92 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+
+  // Reviews functionality
+const reviewsPerPage = 10;
+let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+
+if (!localStorage.getItem('reviews')) {
+    reviews = [
+        { name: 'Alice', stars: 5, message: 'These meal plans changed my life!' },
+        { name: 'Bob', stars: 4, message: 'Great variety and easy to follow.' },
+        { name: 'Catherine', stars: 3, message: 'Good, but could use more vegetarian options.' },
+        { name: 'David', stars: 5, message: 'Perfect for my weight loss journey.' },
+        { name: 'Emily', stars: 4, message: 'Tasty meals, but portions were small.' },
+        { name: 'Frank', stars: 5, message: 'Easy to stick to and delicious.' },
+        { name: 'Grace', stars: 2, message: 'Not enough options for my taste.' },
+        { name: 'Hannah', stars: 5, message: 'Best meal plan service ever!' },
+        { name: 'Ian', stars: 4, message: 'Quality ingredients and good support.' },
+        { name: 'Jane', stars: 5, message: 'Helped me gain muscle with proper macros.' },
+        { name: 'Kevin', stars: 3, message: 'Okay, but I expected more recipes.' },
+        { name: 'Laura', stars: 5, message: 'Absolutely recommend for busy people.' }
+    ];
+    localStorage.setItem('reviews', JSON.stringify(reviews));
+}
+
+function renderStarIcons(count) {
+    let stars = '';
+    for (let i = 0; i < count; i++) {
+        stars += '★';
+    }
+    for (let i = count; i < 5; i++) {
+        stars += '☆';
+    }
+    return stars;
+}
+
+function renderReviews(page = 1) {
+    const start = (page - 1) * reviewsPerPage;
+    const end = start + reviewsPerPage;
+    const pageReviews = reviews.slice(start, end);
+    const container = document.getElementById('reviews-container');
+    container.innerHTML = '';
+    pageReviews.forEach(r => {
+        const card = document.createElement('div');
+        card.classList.add('review-card');
+        card.innerHTML = `
+            <div class="review-header">
+                <div class="review-name">${r.name}</div>
+                <div class="review-stars">${renderStarIcons(r.stars)}</div>
+            </div>
+            <div class="review-message">${r.message}</div>
+        `;
+        container.appendChild(card);
+    });
+    renderPagination(page);
+}
+
+function renderPagination(current) {
+    const pages = Math.ceil(reviews.length / reviewsPerPage);
+    const pagination = document.getElementById('reviews-pagination');
+    pagination.innerHTML = '';
+    for (let i = 1; i <= pages; i++) {
+        const link = document.createElement('a');
+        link.href = '#';
+        link.textContent = i;
+        if (i === current) link.classList.add('active');
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderReviews(i);
+        });
+        pagination.appendChild(link);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('reviews-container')) {
+        renderReviews();
+        const form = document.getElementById('review-form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = form.querySelector('input[name="review-name"]').value;
+            const stars = parseInt(form.querySelector('input[name="review-stars"]:checked').value);
+            const message = form.querySelector('textarea[name="review-message"]').value;
+            const newReview = { name, stars, message };
+            reviews.unshift(newReview);
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+            form.reset();
+            renderReviews();
+        });
+    }
+});

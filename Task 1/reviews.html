@@ -31,8 +31,41 @@
         </div>
     </nav>
 
-
-
+    <section class="reviews-section">
+      <div class="container">
+        <h2>Customer Reviews</h2>
+        <div id="reviews-container"></div>
+        <div id="reviews-pagination" class="pagination"></div>
+    
+        <div class="review-form">
+          <h3>Leave a Review</h3>
+          <form id="review-form">
+            <div class="form-group">
+              <label for="review-name">Name</label>
+              <input type="text" id="review-name" name="review-name" required placeholder="Your name">
+            </div>
+            <div class="form-group">
+              <label>Stars</label>
+              <div class="star-input">
+                <div class="star-input">
+                    <input type="radio" id="star5" name="review-stars" value="5"><label for="star5">★</label>
+                    <input type="radio" id="star4" name="review-stars" value="4"><label for="star4">★</label>
+                    <input type="radio" id="star3" name="review-stars" value="3"><label for="star3">★</label>
+                    <input type="radio" id="star2" name="review-stars" value="2"><label for="star2">★</label>
+                    <input type="radio" id="star1" name="review-stars" value="1"><label for="star1">★</label>
+                  </div>                              
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="review-message">Message</label>
+              <textarea id="review-message" name="review-message" rows="4" required placeholder="Your review"></textarea>
+            </div>
+            <button type="submit" class="btn primary">Submit Review</button>
+          </form>
+        </div>
+      </div>
+    </section>
+    
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
