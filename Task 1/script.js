@@ -513,3 +513,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Page fade-in effect
+  document.body.classList.add('fade-in');
+});
+
+document.querySelectorAll('a.page-link').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const href = this.getAttribute('href');
+    document.body.classList.remove('fade-in');
+    document.body.style.opacity = 0;
+    setTimeout(() => window.location.href = href, 300);
+  });
+});
