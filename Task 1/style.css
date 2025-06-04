@@ -217,7 +217,7 @@ ul {
 /* Hero Section */
 .hero {
     background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
-                url('../Task 1/Images/Background.jpg') no-repeat center center;
+                url('../Day 1/Images/Background.jpg') no-repeat center center;
     background-size: cover;
     background-color: #f8f9fa;
     min-height: 100vh;  /* Make hero take full viewport height */
