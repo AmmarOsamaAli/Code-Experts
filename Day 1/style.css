@@ -217,7 +217,7 @@ ul {
 /* Hero Section */
 .hero {
     background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
-                url('/Day 1/IMAGES/Background.jpg') no-repeat center center;
+                url('Background.jpg') no-repeat center center;
     background-size: cover;
     background-color: #f8f9fa;
     min-height: 100vh;  /* Make hero take full viewport height */
@@ -446,8 +446,6 @@ ul {
     color: var(--gray-300);
 }
 
-
-
 .story-section {
     margin-bottom: 30px;
     margin-top: 40px;
@@ -489,6 +487,8 @@ ul {
   .cta-story .btn.primary{
     margin-top: 20px;
   }
+
+  
 
 /* Animations */
 @keyframes fadeIn {
