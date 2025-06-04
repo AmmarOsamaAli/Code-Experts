@@ -59,7 +59,7 @@ ul {
 }
 
 .section {
-    padding: 100px 0;
+    padding: 60px 0;
     margin: 0;
     width: 100%;
     position: relative;
@@ -68,8 +68,12 @@ ul {
 .section h2 {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom: 40px;
+    margin-bottom: 0px;
     color: var(--primary-dark);
+}
+
+.section + .section {
+    margin-top: 0;
 }
 
 .grid-2 {
@@ -216,14 +220,14 @@ ul {
                 url('Background.jpg') no-repeat center center;
     background-size: cover;
     background-color: #f8f9fa;
-    min-height: 110vh;  /* Make hero take full viewport height */
+    min-height: 100vh;  /* Make hero take full viewport height */
     display: flex;      /* Center content vertically */
     align-items: center;
     justify-content: center;
     text-align: center;
     position: relative;
     padding: 0;        /* Remove default padding */
-    margin-top: -70px; /* Offset the navbar height */
+    margin-top: 0px; /* Offset the navbar height */
     padding-top: 70px; /* Add padding to account for navbar */
 }
 
@@ -248,6 +252,22 @@ ul {
     margin-bottom: 30px;
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
+
+/* How It Works Section */
+#how-it-works {
+    padding: 80px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease-out;
+}
+
+#how-it-works.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+} 
 
 /* Feature Cards */
 .feature-card {
@@ -284,7 +304,7 @@ ul {
 
 .benefits-content h2 {
     text-align: center;
-    margin-bottom: 40px;
+    padding: 0px 10px;
 }
 
 .benefits-list li {
@@ -309,6 +329,7 @@ ul {
     display: flex;
     flex-direction: column;
     height: 100%;
+    
 }
 
 .plan-card.featured {
@@ -676,6 +697,12 @@ ul {
 }
 
 /* Responsive Design */
+@media (max-width: 1280px) {
+    .container {
+      padding: 0 15px;
+    }
+  }
+
 @media (max-width: 1024px) {
     .hero h1 {
         font-size: 3rem;
@@ -685,6 +712,24 @@ ul {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+  @media (max-width: 992px) {
+    .grid-3 {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+  
+    .section {
+      padding: 80px 0;
+    }
+  
+    .benefits-content h2 {
+      padding: 40px 10px;
+    }
+  }
 
 @media (max-width: 768px) {
     .grid-2 {
@@ -779,19 +824,3 @@ ul {
         font-size: 2rem;
     }
 }
-
-/* How It Works Section */
-#how-it-works {
-    padding: 80px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.8s ease-out;
-}
-
-#how-it-works.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-} 
