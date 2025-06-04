@@ -161,3 +161,266 @@ function showNotification(message, type = 'success') {
         setTimeout(() => notification.remove(), 300);
     }, 5000);
 } 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const quizForm = document.getElementById('quiz-form');
+    const resultsDiv = document.getElementById('results');
+    const worksOutRadios = document.querySelectorAll('input[name="worksOut"]');
+    const workoutDetails = document.getElementById('workout-details');
+  
+    // 1) Show/hide workout details when user selects "Yes" or "No"
+    worksOutRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.value === 'yes' && radio.checked) {
+          workoutDetails.classList.remove('hidden');
+        } else if (radio.value === 'no' && radio.checked) {
+          workoutDetails.classList.add('hidden');
+        }
+      });
+    });
+  
+    // 2) When the quiz form is submitted, prevent default and build a 7-day plan
+    quizForm.addEventListener('submit', event => {
+      event.preventDefault();
+  
+      // Read user inputs
+      const age = parseInt(document.getElementById('age').value, 10);
+      const gender = quizForm.elements['gender'].value;
+      const height = parseInt(document.getElementById('height').value, 10);
+      const weight = parseInt(document.getElementById('weight').value, 10);
+      const targetWeight = parseInt(document.getElementById('target-weight').value, 10);
+      const worksOut = quizForm.elements['worksOut'].value;
+      const frequency = worksOut === 'yes'
+        ? parseInt(document.getElementById('freq').value, 10) || 0
+        : 0;
+      const intensity = worksOut === 'yes'
+        ? document.getElementById('intensity').value
+        : '';
+      const diet = document.getElementById('diet').value; // "omnivore" | "vegetarian" | "vegan"
+      const likes = document.getElementById('likes').value
+        .split(',')
+        .map(s => s.trim().toLowerCase())
+        .filter(Boolean);
+  
+      // Determine if user wants to lose weight or gain/maintain
+      const losingWeight = targetWeight < weight;
+  
+      // 3) Define meal databases (breakfast / lunch / dinner / snacks) by diet category.
+      //    For simplicity, these arrays contain strings of meal names. You can expand or replace them with actual recipe objects.
+      const mealDB = {
+        omnivore: {
+          breakfast: [
+            'Scrambled Eggs & Whole-grain Toast',
+            'Greek Yogurt Parfait with Berries',
+            'Avocado & Turkey Bacon Toast',
+            'Spinach & Mushroom Omelette',
+            'Breakfast Burrito with Eggs & Veggies',
+            'Peanut Butter Banana Oatmeal',
+            'Cottage Cheese & Pineapple'
+          ],
+          lunch: [
+            'Grilled Chicken Salad with Mixed Greens',
+            'Turkey & Avocado Wrap',
+            'Salmon Poke Bowl',
+            'Chicken Quinoa Bowl',
+            'Beef Stir-Fry with Veggies',
+            'Tuna Salad Sandwich on Whole Wheat',
+            'Shrimp & Avocado Salad'
+          ],
+          dinner: [
+            'Baked Salmon + Roasted Broccoli',
+            'Grilled Steak + Sweet Potato',
+            'Chicken Fajita Bowls',
+            'Pork Tenderloin + Brussels Sprouts',
+            'Beef Chili with Beans',
+            'Balsamic Chicken + Asparagus',
+            'Shrimp Garlic Pasta'
+          ],
+          snacks: [
+            'Apple Slices with Almond Butter',
+            'Baby Carrots & Hummus',
+            'Handful of Mixed Nuts',
+            'Greek Yogurt with Honey',
+            'String Cheese + Whole Grain Crackers',
+            'Celery & Peanut Butter',
+            'Hard-boiled Egg'
+          ]
+        },
+        vegetarian: {
+          breakfast: [
+            'Overnight Oats with Chia Seeds',
+            'Veggie Egg Scramble',
+            'Greek Yogurt Parfait',
+            'Avocado Toast with Tomato',
+            'Cottage Cheese & Berries',
+            'Banana Pancakes',
+            'Spinach & Feta Omelette'
+          ],
+          lunch: [
+            'Quinoa & Black Bean Bowl',
+            'Veggie Wrap with Hummus',
+            'Caprese Sandwich',
+            'Lentil Soup with Whole Wheat Roll',
+            'Falafel Salad',
+            'Chickpea Curry with Brown Rice',
+            'Grilled Veggie Panini'
+          ],
+          dinner: [
+            'Vegetable Stir-Fry with Tofu',
+            'Spinach & Ricotta Stuffed Peppers',
+            'Vegetarian Chili with Cornbread',
+            'Eggplant Parmesan',
+            'Butternut Squash Risotto',
+            'Black Bean Tacos',
+            'Zucchini Noodle Alfredo'
+          ],
+          snacks: [
+            'Carrots & Hummus',
+            'Greek Yogurt with Granola',
+            'Trail Mix (nuts + dried fruit)',
+            'Sliced Bell Peppers & Guacamole',
+            'Apple & Peanut Butter',
+            'Cucumber Slices with Tzatziki',
+            'String Cheese'
+          ]
+        },
+        vegan: {
+          breakfast: [
+            'Chia Pudding with Berries',
+            'Smoothie Bowl (Banana + Spinach)',
+            'Vegan Tofu Scramble',
+            'Overnight Oats with Almond Milk',
+            'Avocado Toast with Chickpeas',
+            'Peanut Butter Banana Smoothie',
+            'Vegan Pancakes with Maple Syrup'
+          ],
+          lunch: [
+            'Vegan Buddha Bowl (Quinoa + Veggies)',
+            'Lentil & Sweet Potato Salad',
+            'Vegan Chickpea Wrap',
+            'Black Bean & Corn Salad',
+            'Tofu Veggie Stir-Fry',
+            'Quinoa Tabbouleh',
+            'Vegan Sushi Rolls'
+          ],
+          dinner: [
+            'Vegan Lentil Shepherd’s Pie',
+            'Chickpea Curry with Brown Rice',
+            'Stuffed Acorn Squash',
+            'Vegan Pasta Primavera',
+            'Black Bean Burger with Sweet Potato Fries',
+            'Thai Coconut Tofu Curry',
+            'Vegan Chili with Cornbread'
+          ],
+          snacks: [
+            'Fresh Fruit Salad',
+            'Roasted Chickpeas',
+            'Almonds & Walnuts',
+            'Veggie Sticks & Hummus',
+            'Dates & Almond Butter',
+            'Energy Balls (oats + nuts)',
+            'Rice Cakes with Avocado'
+          ]
+        }
+      };
+  
+      // 4) Utility to pick N unique random indices from an array
+      function pickNUnique(arr, n) {
+        const result = [];
+        const used = new Set();
+        while (result.length < n && used.size < arr.length) {
+          const idx = Math.floor(Math.random() * arr.length);
+          if (!used.has(idx)) {
+            used.add(idx);
+            result.push(arr[idx]);
+          }
+        }
+        return result;
+      }
+  
+      // 5) Build a weekly plan: 7 days with breakfast, lunch, dinner, snack1, snack2.
+      //    We want each day’s breakfast to be different, each day’s lunch different, etc.
+      const breakfasts = pickNUnique(mealDB[diet].breakfast, 7);
+      const lunches   = pickNUnique(mealDB[diet].lunch, 7);
+      const dinners   = pickNUnique(mealDB[diet].dinner, 7);
+      // Pick 14 unique snack items (2 per day), or if fewer items exist, allow repeats after exhausting.
+      let allSnacksPool = mealDB[diet].snacks.slice();
+      if (allSnacksPool.length < 14) {
+        // Duplicate pool until at least 14 items
+        while (allSnacksPool.length < 14) {
+          allSnacksPool = allSnacksPool.concat(mealDB[diet].snacks);
+        }
+      }
+      const snacksPicked = pickNUnique(allSnacksPool, 14);
+  
+      const daysOfWeek = [
+        'Saturday', 'Sunday', 'Monday',
+        'Tuesday', 'Wednesday', 'Thursday', 'Friday'
+      ];
+  
+      // Construct an array of 7 day-objects
+      const weeklyPlan = daysOfWeek.map((dayName, i) => {
+        return {
+          day: dayName,
+          breakfast: breakfasts[i] || breakfasts[ i % breakfasts.length ],
+          lunch: lunches[i] || lunches[ i % lunches.length ],
+          dinner: dinners[i] || dinners[ i % dinners.length ],
+          snack1: snacksPicked[2*i], 
+          snack2: snacksPicked[2*i + 1]
+        };
+      });
+  
+      // 6) Generate HTML table markup for the 7-day plan.
+      let html = `
+        <h2 class="results-heading">Your 7-Day Meal Plan</h2>
+        <div class="meal-plan-container">
+          <table class="meal-plan-table">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Breakfast</th>
+                <th>Snack (Morning)</th>
+                <th>Lunch</th>
+                <th>Snack (Afternoon)</th>
+                <th>Dinner</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+  
+      weeklyPlan.forEach(entry => {
+        html += `
+          <tr>
+            <td>${entry.day}</td>
+            <td>${entry.breakfast}</td>
+            <td>${entry.snack1}</td>
+            <td>${entry.lunch}</td>
+            <td>${entry.snack2}</td>
+            <td>${entry.dinner}</td>
+          </tr>
+        `;
+      });
+  
+      html += `
+            </tbody>
+          </table>
+          <button id="back-btn" class="btn secondary back-btn">Back to Quiz</button>
+        </div>
+      `;
+  
+      // 7) Inject into page: hide the form, show results
+      resultsDiv.innerHTML = html;
+      quizForm.classList.add('hidden');
+      resultsDiv.classList.remove('hidden');
+  
+      // 8) “Back to Quiz” logic
+      document.getElementById('back-btn').addEventListener('click', () => {
+        resultsDiv.classList.add('hidden');
+        quizForm.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+  
+      // Scroll to top of results
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
