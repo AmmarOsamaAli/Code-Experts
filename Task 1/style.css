@@ -1183,6 +1183,12 @@ ul {
   box-shadow: var(--shadow-sm);
 }
 
+.reviews-section .container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .review-form .form-group {
     margin-bottom: 20px;
 }
