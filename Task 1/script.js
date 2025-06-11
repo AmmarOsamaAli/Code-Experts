@@ -528,3 +528,28 @@ document.querySelectorAll('a.page-link').forEach(link => {
     setTimeout(() => window.location.href = href, 300);
   });
 });
+
+
+let isAdmin = false;
+
+document.getElementById('loginForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const username = this.username.value;
+  const password = this.password.value;
+  const res = await fetch('http://localhost/Code-Experts/Task%201/PHP/login.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({username, password})
+  });
+  const data = await res.json();
+  if (data.success) {
+    isAdmin = true;
+    document.getElementById('loginDiv').style.display = 'none';
+    document.getElementById('addBlogForm').style.display = 'block';
+  } else {
+    document.getElementById('loginError').innerText = data.error;
+  }
+};
+
+// Hide add blog form by default
+document.getElementById('addBlogForm').style.display = 'none';

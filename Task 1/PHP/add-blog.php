@@ -1,9 +1,15 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
-include 'db.php';
+header('Access-Control-Allow-Methods: POST');
+session_start();
 
+if (!isset($_SESSION['admin'])) {
+    echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+    exit;
+}
+
+include 'db.php';
 $data = json_decode(file_get_contents("php://input"), true);
 $title = $data['title'] ?? '';
 $content = $data['content'] ?? '';
