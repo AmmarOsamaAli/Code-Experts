@@ -32,7 +32,45 @@
         </div>
     </nav>
 
-    
+    <div id="blogs"></div>
+    <script>
+    fetch('http://localhost/Code-Experts-Backend/get_blogs.php')
+      .then(res => res.json())
+      .then(blogs => {
+        const blogsDiv = document.getElementById('blogs');
+        blogs.forEach(blog => {
+          const el = document.createElement('div');
+          el.className = "blog-post";
+          el.innerHTML = `<h2>${blog.title}</h2><p>${blog.content}</p><small>${blog.created_at}</small>`;
+          blogsDiv.appendChild(el);
+        });
+      });
+    </script>
+
+    <form id="addBlogForm">
+      <input name="title" placeholder="Title" required>
+      <textarea name="content" placeholder="Content" required></textarea>
+      <button type="submit">Add Blog</button>
+    </form>
+    <script>
+    document.getElementById('addBlogForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const title = this.title.value;
+      const content = this.content.value;
+      const res = await fetch('http://localhost/Code-Experts-Backend/add_blog.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({title, content})
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert('Blog added!');
+        location.reload();
+      } else {
+        alert('Error: ' + data.error);
+      }
+    };
+    </script>
 
     <footer class="footer">
         <div class="container">

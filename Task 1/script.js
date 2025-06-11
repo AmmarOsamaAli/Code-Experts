@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Vegan Sushi Rolls'
           ],
           dinner: [
-            'Vegan Lentil Shepherd’s Pie',
+            'Vegan Lentil Shepherd's Pie',
             'Chickpea Curry with Brown Rice',
             'Stuffed Acorn Squash',
             'Vegan Pasta Primavera',
@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   
       // 5) Build a weekly plan: 7 days with breakfast, lunch, dinner, snack1, snack2.
-      //    We want each day’s breakfast to be different, each day’s lunch different, etc.
+      //    We want each day's breakfast to be different, each day's lunch different, etc.
       const breakfasts = pickNUnique(mealDB[diet].breakfast, 7);
       const lunches   = pickNUnique(mealDB[diet].lunch, 7);
       const dinners   = pickNUnique(mealDB[diet].dinner, 7);
@@ -413,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
       quizForm.classList.add('hidden');
       resultsDiv.classList.remove('hidden');
   
-      // 8) “Back to Quiz” logic
+      // 8) "Back to Quiz" logic
       document.getElementById('back-btn').addEventListener('click', () => {
         resultsDiv.classList.add('hidden');
         quizForm.classList.remove('hidden');
@@ -528,3 +528,5 @@ document.querySelectorAll('a.page-link').forEach(link => {
     setTimeout(() => window.location.href = href, 300);
   });
 });
+
+fetch('http://localhost/Code-Experts/Task%201/PHP/get_blogs.php')
