@@ -528,5 +528,3 @@ document.querySelectorAll('a.page-link').forEach(link => {
     setTimeout(() => window.location.href = href, 300);
   });
 });
-
-fetch('http://localhost/Code-Experts/Task%201/PHP/get_blogs.php')
