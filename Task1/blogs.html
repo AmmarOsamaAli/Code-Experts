@@ -32,37 +32,6 @@
         </div>
     </nav>
 
-    <main class="section" style="padding-top: 100px;">
-      <div class="container">
-        <h2 style="text-align:center; margin-bottom: 40px;">Latest Blog Posts</h2>
-        <div id="blogs-container" class="grid-2"></div>
-      </div>
-    </main>
-    <script>
-      // Load blogs from PHP endpoint
-      fetch('http://localhost/Code-Experts/PHP/get-blogs.php')
-        .then(res => res.json())
-        .then(data => {
-          const container = document.getElementById('blogs-container');
-          if (data.length === 0) {
-            container.innerHTML = '<p>No blog posts available.</p>';
-            return;
-          }
-          data.forEach(blog => {
-            const el = document.createElement('div');
-            el.className = "blog-card";
-            el.style = "background:white; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05); margin-bottom:20px;";
-            el.innerHTML = `
-              <h3 style="color:var(--primary-dark); margin-bottom:10px;">${blog.title}</h3>
-              <p style="color:#555; line-height:1.6; margin-bottom:10px;">${blog.content}</p>
-              <small style="color:#999;">Posted on ${new Date(blog.created_at).toLocaleDateString()}</small>
-            `;
-            container.appendChild(el);
-          });
-        });
-    </script>
-    <script src="script.js"></script>
-
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -104,5 +73,6 @@
             </div>
         </div>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html> 
