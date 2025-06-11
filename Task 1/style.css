@@ -1117,8 +1117,9 @@ ul {
     padding: 80px 0;
 }
 
-.reviews-section h2{
-    margin-bottom: 20px;
+.reviews-section h2 {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .review-card {
@@ -1174,11 +1175,12 @@ ul {
 }
 
 .review-form {
-    background: white;
-    padding: 20px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    margin-top: 40px;
+  max-width: 1160px;
+  margin: 40px auto 60px auto; 
+  background: white;
+  padding: 30px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
 }
 
 .review-form .form-group {
@@ -1224,9 +1226,6 @@ ul {
     display: none;
   }
 
-  .star-input input[type="radio"]:checked ~ label {
-    color: #ccc;
-  }
 
 .star-input input {
     display: none;
