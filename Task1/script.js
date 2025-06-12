@@ -528,3 +528,108 @@ document.querySelectorAll('a.page-link').forEach(link => {
     setTimeout(() => window.location.href = href, 300);
   });
 });
+
+// ✅ Set the global backend URL
+const BASE_URL = 'https://a529-89-148-54-215.ngrok-free.app/Code-Experts-Backend';
+const isAdmin = localStorage.getItem('isAdmin') === 'true';
+
+document.addEventListener('DOMContentLoaded', () => {
+  // ✅ LOGIN HANDLER
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const username = e.target.username.value;
+      const password = e.target.password.value;
+
+      try {
+        const res = await fetch(`${BASE_URL}/PHP/login.php`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          localStorage.setItem('isAdmin', 'true');
+          window.location.href = 'blogs.html';
+        } else {
+          alert(data.error || 'Invalid login');
+        }
+      } catch (err) {
+        console.error('Login failed:', err);
+        alert('Login failed. Please try again later.');
+      }
+    });
+  }
+
+  // ✅ BLOG LOADER
+  const blogsContainer = document.getElementById('blogs');
+  const errorContainer = document.getElementById('blog-error');
+
+  if (blogsContainer) {
+    fetch(`${BASE_URL}/PHP/get-blogs.php`)
+      .then(res => res.json())
+      .then(data => {
+        blogsContainer.innerHTML = '';
+        if (!Array.isArray(data) || data.length === 0) {
+          blogsContainer.innerHTML = '<p>No blog posts found.</p>';
+          return;
+        }
+
+        data.forEach(blog => {
+          const card = document.createElement('div');
+          card.className = 'blog-card';
+          card.innerHTML = `
+            <h2>${blog.title}</h2>
+            <p>${blog.content}</p>
+            ${isAdmin ? `
+              <div class="admin-buttons">
+                <button class="btn small-btn" onclick="editBlog(${blog.id})">Edit</button>
+                <button class="btn small-btn" onclick="deleteBlog(${blog.id})">Delete</button>
+              </div>
+            ` : ''}
+          `;
+          blogsContainer.appendChild(card);
+        });
+      })
+      .catch(err => {
+        errorContainer.textContent = 'Error loading blog posts.';
+        console.error('Error fetching blogs:', err);
+      });
+  }
+
+  // ✅ Show admin-only controls if needed
+  const adminControls = document.getElementById('admin-controls');
+  if (adminControls && isAdmin) {
+    adminControls.style.display = 'block';
+  }
+});
+
+// ✅ DELETE BLOG
+async function deleteBlog(id) {
+  if (!confirm("Are you sure you want to delete this blog post?")) return;
+
+  try {
+    const res = await fetch(`${BASE_URL}/PHP/delete-blog.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id })
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      window.location.reload();
+    } else {
+      alert(result.error || 'Delete failed');
+    }
+  } catch (err) {
+    console.error('Delete error:', err);
+    alert('Failed to delete blog');
+  }
+}
+
+// Optional: define editBlog() logic if needed
+function editBlog(id) {
+  alert(`Edit functionality not implemented yet for blog ID: ${id}`);
+}

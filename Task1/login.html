@@ -40,7 +40,7 @@
             <div class="contact-wrapper" style="margin-top: 100px;">
               <div class="contact-info">
                 <h1>Admin Login</h1>
-                <p class="lead">Only authorized users may access the blog management area.</p>
+                <p class="lead">Only authorized users may access the management area.</p>
               </div>
               <div class="contact-form-wrapper">
                 <form class="contact-form" id="loginForm">
@@ -59,27 +59,43 @@
           </main>          
       
         <script>
-          const BASE_URL = 'https://your-ngrok-url/Code-Experts-Backend';
-      
-          document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const username = e.target.username.value;
-            const password = e.target.password.value;
-      
-            const res = await fetch(`${BASE_URL}/login.php`, {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({ username, password })
-            });
-      
-            const data = await res.json();
-            if (data.success) {
-              localStorage.setItem('isAdmin', 'true');
-              window.location.href = 'blogs.html';
-            } else {
-              alert('Invalid login');
+            document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById('loginForm');
+            if (!form) {
+                console.error("Login form not found!");
+                return;
             }
-          });
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const username = e.target.username.value;
+                const password = e.target.password.value;
+
+                console.log("Logging in:", username);
+
+                const BASE_URL = 'https://a529-89-148-54-215.ngrok-free.app/Code-Experts-Backend'; 
+                
+                try {
+                const res = await fetch(`${BASE_URL}/PHP/login.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+                console.log("Response:", data);
+
+                if (data.success) {
+                    localStorage.setItem('isAdmin', 'true');
+                    window.location.href = 'blogs.html';
+                } else {
+                    alert(data.error || 'Login failed.');
+                }
+                } catch (err) {
+                console.error("Fetch error:", err);
+                }
+            });
+            });
         </script>
 
     <footer class="footer">
