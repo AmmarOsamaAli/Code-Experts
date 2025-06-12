@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Vegan Sushi Rolls'
           ],
           dinner: [
-            'Vegan Lentil Shepherd's Pie',
+            'Vegan Lentil Shepherd"s Pie',
             'Chickpea Curry with Brown Rice',
             'Stuffed Acorn Squash',
             'Vegan Pasta Primavera',
