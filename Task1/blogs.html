@@ -73,6 +73,23 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        const BASE_URL = 'https://82a1-89-148-54-215.ngrok-free.app/Code-Experts-Backend';
+      
+        // Load blogs
+        fetch(`${BASE_URL}/get-blogs.php`)
+          .then(res => res.json())
+          .then(blogs => {
+            const container = document.createElement('div');
+            blogs.forEach(blog => {
+              const el = document.createElement('div');
+              el.innerHTML = `<h2>${blog.title}</h2><p>${blog.content}</p>`;
+              container.appendChild(el);
+            });
+            document.body.insertBefore(container, document.querySelector('footer'));
+          });
+      </script>      
     <script src="script.js"></script>
 </body>
 </html> 
